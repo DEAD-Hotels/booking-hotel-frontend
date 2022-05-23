@@ -15,7 +15,7 @@ export const logout = () => new Promise((resolve) => {
 });
 
 export const login = (username, password) =>
-    fetch(`http://localhost:8081/auth/login`, {
+    fetch(`https://booking-hotels-backend.herokuapp.com/auth/login`, {
         method: "POST",
         headers: {
             ...getCommonJsonRequestProps().headers
@@ -32,7 +32,7 @@ export const login = (username, password) =>
         })
 
 export const signUp = (username, password, fullName, email) =>
-    fetch (`http://localhost:8081/auth/signUp`, {
+    fetch (`https://booking-hotels-backend.herokuapp.com/auth/signUp`, {
         method: "POST",
         headers: {
             ...getCommonJsonRequestProps().headers

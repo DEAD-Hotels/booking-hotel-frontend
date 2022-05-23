@@ -22,7 +22,7 @@ const List = () => {
         loading,
         error,
         reFetch
-    } = useFetch(`http://localhost:8081/hotels/?city=${destination}&min=${min || 0}&max= ${max || 999}`);
+    } = useFetch(`https://booking-hotels-backend.herokuapp.com/hotels/?city=${destination}&min=${min || 0}&max= ${max || 999}`);
 
     const handleClick = () => {
         reFetch();

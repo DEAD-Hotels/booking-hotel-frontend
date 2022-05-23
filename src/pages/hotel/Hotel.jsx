@@ -14,7 +14,7 @@ const Hotel = () => {
     const [slideNumber, setSlideNumber] = useState(0);
     const [open, setOpen] = useState(false);
 
-    const {data, error, loading, reFetch} = useFetch(`http://localhost:8081/hotels/${hotelId}`);
+    const {data, error, loading, reFetch} = useFetch(`https://booking-hotels-backend.herokuapp.com/hotels/${hotelId}`);
 
     const {dates, options} = useContext(SearchContext);
     console.log(dates);
