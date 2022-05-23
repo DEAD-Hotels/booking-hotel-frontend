@@ -1,8 +1,9 @@
 import axios from "axios";
 import useFetch from "../hooks/useFetch";
+import {HOST} from "../const/commonConsts";
 
 export const fetchHotels = () => {
-    return axios.get("https://booking-hotels-backend.herokuapp.com/hotels")
+    return axios.get("/hotels")
         .then(hotels => hotels.data || []);
 };
 
@@ -12,7 +13,7 @@ export const FetchHotelBetween = ({destination, min, max}) => {
         loading,
         error,
         reFetch
-    } = useFetch(`https://booking-hotels-backend.herokuapp.com/hotels/?city=${destination}&${min || 0}&${max || 999}`);
+    } = useFetch(HOST+`/hotels/?city=${destination}&${min || 0}&${max || 999}`);
 
     return {data};
 }

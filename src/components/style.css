@@ -1,0 +1,31 @@
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 99;
+  background: white;
+}
+
+
+.logo {
+  height: 36px;
+}
+
+.mobile-nav {
+  display: none;
+}
+
+.navbar-toggle {
+  border: 0;
+  background: transparent;
+}
+
+.icon-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  margin-bottom: 4px;
+  border-radius: 1px;
+  background: #4a4a4a;
+}
+

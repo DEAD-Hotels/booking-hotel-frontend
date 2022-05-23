@@ -1,8 +1,9 @@
 import "./Featured.css";
 import useFetch from "../../hooks/useFetch";
+import {HOST} from "../../const/commonConsts";
 
 const Featured = () => {
-    const {data, loading, error} = useFetch("https://booking-hotels-backend.herokuapp.com/hotels/countByCity");
+    const {data, loading, error} = useFetch(HOST +`/hotels/countByCity`);
     return (
         <div className="featured container">
             {loading ?

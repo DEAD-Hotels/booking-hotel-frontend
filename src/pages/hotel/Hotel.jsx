@@ -6,6 +6,7 @@ import {useContext, useState} from "react";
 import {useLocation} from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import {SearchContext} from "../../context/SearchContext";
+import {HOST} from "../../const/commonConsts";
 
 const Hotel = () => {
     const location = useLocation();
@@ -14,7 +15,7 @@ const Hotel = () => {
     const [slideNumber, setSlideNumber] = useState(0);
     const [open, setOpen] = useState(false);
 
-    const {data, error, loading, reFetch} = useFetch(`https://booking-hotels-backend.herokuapp.com/hotels/${hotelId}`);
+    const {data, error, loading, reFetch} = useFetch(HOST + `/hotels/${hotelId}`);
 
     const {dates, options} = useContext(SearchContext);
     console.log(dates);

@@ -1,5 +1,6 @@
 import {getCommonJsonRequestProps, throwHttpErrors} from "../commons/commons";
 import jwtDecode from "jwt-decode";
+import {HOST} from "../const/commonConsts";
 
 
 export const setCurrentUserToken = (currentUserToken) => {
@@ -15,7 +16,7 @@ export const logout = () => new Promise((resolve) => {
 });
 
 export const login = (username, password) =>
-    fetch(`https://booking-hotels-backend.herokuapp.com/auth/login`, {
+    fetch(HOST +`/auth/login`, {
         method: "POST",
         headers: {
             ...getCommonJsonRequestProps().headers
@@ -32,7 +33,7 @@ export const login = (username, password) =>
         })
 
 export const signUp = (username, password, fullName, email) =>
-    fetch (`https://booking-hotels-backend.herokuapp.com/auth/signUp`, {
+    fetch (HOST+`/auth/signUp`, {
         method: "POST",
         headers: {
             ...getCommonJsonRequestProps().headers

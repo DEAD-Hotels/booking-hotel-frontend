@@ -20,16 +20,6 @@ const handleLogin = (history, location, context, setContext, showError, navigate
             setContext({...context, currentUser});
             console.log("Current user handle login:" + currentUser.username);
             navigate("/");
-            // history.push("/");
-            // history.push("/");
-/*            if (!currentUser) {
-                return currentUser;
-            }
-            if (location && location.state && location.state.from) {
-                return history.push("/");
-            } else {
-                return history.push("/");
-            }*/
         })
         .catch(err => showError("Ошибка аутентификации: Неверное имя пользователя или пароль. " + err));
 }

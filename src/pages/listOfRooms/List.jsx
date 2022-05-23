@@ -6,6 +6,7 @@ import {format} from "date-fns";
 import {DateRange} from "react-date-range";
 import SearchItem from "../../components/searchItem/SearchItem";
 import useFetch from "../../hooks/useFetch";
+import {HOST} from "../../const/commonConsts";
 
 const List = () => {
     const location = useLocation();
@@ -22,7 +23,7 @@ const List = () => {
         loading,
         error,
         reFetch
-    } = useFetch(`https://booking-hotels-backend.herokuapp.com/hotels/?city=${destination}&min=${min || 0}&max= ${max || 999}`);
+    } = useFetch(HOST +`/hotels/?city=${destination}&min=${min || 0}&max= ${max || 999}`);
 
     const handleClick = () => {
         reFetch();
