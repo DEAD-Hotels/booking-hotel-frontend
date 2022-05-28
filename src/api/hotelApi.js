@@ -1,29 +1,26 @@
 import axios from "axios";
-import useFetch from "../hooks/useFetch";
 import {HOST} from "../const/commonConsts";
+import {getCommonJsonRequestProps, throwHttpErrors} from "../commons/commons";
 
 export const fetchHotels = () => {
     return axios.get("/hotels")
         .then(hotels => hotels.data || []);
 };
 
-export const FetchHotelBetween = ({destination, min, max}) => {
-    const {
-        data,
-        loading,
-        error,
-        reFetch
-    } = useFetch(HOST+`/hotels/?city=${destination}&${min || 0}&${max || 999}`);
+export const loadRoomsInHotel = (hotelId, navigate) =>
+    fetch(HOST + `/hotels/${hotelId}/rooms`, {
+        method: "GET",
+        ...getCommonJsonRequestProps()
+    })
+        .then(res => throwHttpErrors(res, navigate))
+        .then(rooms => rooms || [])
 
-    return {data};
-}
-
-    // fetch(`http://localhost:8081/hotels`, {
-    //     method: "GET"
-    // })
-    //     // .then(res => console.log(res))
-    //     .then(res => res.text())
-    //     .then(hotels => {
-    //         hotels.resulst
-    //     });
-    // }
+export const saveReservationInfo = (totalPrice, startDate, endDate, selectedRooms) =>
+    fetch(HOST + `/reservation/saveReservation`, {
+        method: "POST",
+        headers: {
+            ...getCommonJsonRequestProps().headers
+        },
+        body: JSON.stringify({totalPrice, startDate, endDate, selectedRooms})
+    })
+        .then(response => response.text())
