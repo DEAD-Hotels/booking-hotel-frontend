@@ -6,7 +6,7 @@ import {formikValidate} from "../../forms/formik/formikValidation";
 import {required} from "../../forms/formik/formikValidationRules";
 import {useFormik} from "formik";
 import LoginView from "./LoginView";
-import {Redirect, useNavigate} from "react-router";
+import {useNavigate} from "react-router";
 import {APP_NAME} from "../../const/commonConsts";
 
 
@@ -18,7 +18,6 @@ const handleLogin = (history, location, context, setContext, showError, navigate
     return securityApi.login(values.username, values.password)
         .then((currentUser) => {
             setContext({...context, currentUser});
-            console.log("Current user handle login:" + currentUser.username);
             navigate("/");
         })
         .catch(err => showError("Ошибка аутентификации: Неверное имя пользователя или пароль. " + err));

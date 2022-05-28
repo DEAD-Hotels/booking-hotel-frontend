@@ -27,7 +27,6 @@ export const login = (username, password) =>
         .then(response => response.json())
         .then(jwtResponse => jwtResponse.accessToken)
         .then(accessToken => {
-            console.log(accessToken);
             setCurrentUserToken(accessToken);
             return getCurrentUser();
         })
@@ -42,7 +41,6 @@ export const signUp = (username, password, fullName, email) =>
     })
         .then(throwHttpErrors)
         .then(res => res.text())
-        .catch(err => alert(err))
 
 
 

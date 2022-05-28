@@ -1,12 +1,11 @@
 import React from "react";
-import './App.css';
-import {Home} from "./pages/home/Home";
-import {NotFound} from "./pages/notFound/Error"
+import {Home} from "../pages/home/Home";
+import {NotFound} from "../pages/notFound/Error"
 import {Route, Routes} from "react-router";
-import List from "./pages/listOfRooms/List";
-import Hotel from "./pages/hotel/Hotel";
-import Login from "./pages/login/Login";
-import Registration from "./pages/registration/Registration";
+import List from "../pages/listOfRooms/List";
+import Hotel from "../pages/hotel/Hotel";
+import Login from "../pages/login/Login";
+import Registration from "../pages/registration/Registration";
 
 function App() {
     return (
@@ -18,7 +17,7 @@ function App() {
                 <Route path="/rooms" element={<NotFound/>} exact/>
                 <Route path="/hotels" element={<List/>} exact/>
                 <Route path="/hotels/:id" element={<Hotel/>} exact/>
-                <Route component={<NotFound/>}/>
+                <Route path='*' element={<NotFound/>}/>
             </Routes>
         </div>
     );

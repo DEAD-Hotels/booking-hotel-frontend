@@ -20,14 +20,14 @@ const handleSignUp = (context, setContext, showSuccess, showError, navigate) => 
     return securityApi.signUp(
         values.username, values.password,
         values.fullName, values.email)
-        .then((text) => {
-            showSuccess("Регистрация пользователя прошла успешна!"+ text)
+        .then(() => {
+            showSuccess("Регистрация пользователя прошла успешна!")
             navigate("/login");
         })
-        .catch(err => showError("Ошибка регистрации нового пользователя: " + err));
+        .catch(err => showError("Ошибка регистрации нового пользователя:"+ err));
 }
 
-const Login = (props) => {
+const Registration = (props) => {
     const [context, setContext] = useContext(AppContext);
     const {showError, showSuccess} = useSnackbar();
     const navigate = useNavigate();
@@ -58,4 +58,4 @@ const Login = (props) => {
         {...props} />;
 };
 
-export default Login;
+export default Registration;

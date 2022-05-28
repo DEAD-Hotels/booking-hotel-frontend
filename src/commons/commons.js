@@ -11,7 +11,7 @@ const unescapeMessage = (text) => {
     return value.replace(/\\r\\n/g, "\n").replace(/\\n/g, "\n").replace(/\\t/g, "    ").replace(/\\"/g, "\"");
 };
 
-export const throwHttpErrors = (response, history) => {
+export const throwHttpErrors = (response, navigate) => {
     if (response.status === 409) {
         return new Promise((resolve, reject) => response.json()
             .then(violations => reject(new ServerValidationError(violations))));
@@ -19,7 +19,7 @@ export const throwHttpErrors = (response, history) => {
 
     if (response.status >= 400 && response.status <= 599) {
         if (response.status === 401) {
-            history.push("/login");
+            navigate("/login");
         }
         return new Promise((resolve, reject) => response.text()
             .then(text => reject(new Error(`${response.status} ${response.statusText}\n\n${unescapeMessage(text || "<empty body>")}`))));

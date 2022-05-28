@@ -7,18 +7,26 @@ import {useLocation} from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import {SearchContext} from "../../context/SearchContext";
 import {HOST} from "../../const/commonConsts";
+import {dayDifference} from "../../utils/calculateDays";
+import {AppContext} from "../../context/AppContext";
+import {useSnackbar} from "../../utils/snackbar";
+import {useNavigate} from "react-router";
+import {Reserve} from "../../components/reserve/Reserve";
 
 const Hotel = () => {
     const location = useLocation();
-    const hotelId = location.pathname.split('/')[2];
-
+    const navigate = useNavigate();
+    const {dates, options} = useContext(SearchContext);
+    const [context] =        useContext(AppContext);
+    const {showWarning} = useSnackbar();
     const [slideNumber, setSlideNumber] = useState(0);
     const [open, setOpen] = useState(false);
+    const [openReservationModal, setOpenReservationModal] = useState(false);
 
+    const hotelId = location.pathname.split('/')[2];
+    const {currentUser} = context;
     const {data, error, loading, reFetch} = useFetch(HOST + `/hotels/${hotelId}`);
-
-    const {dates, options} = useContext(SearchContext);
-    console.log(dates);
+    const days = dayDifference(dates[0].endDate, dates[0].startDate);
     const photos = [
         {
             src: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/261707778.jpg?k=56ba0babbcbbfeb3d3e911728831dcbc390ed2cb16c51d88159f82bf751d04c6&o=&hp=1",
@@ -56,6 +64,15 @@ const Hotel = () => {
 
         setSlideNumber(newSlideNumber)
     };
+
+    const handleClick = () => {
+        if (currentUser) {
+            setOpenReservationModal(true);
+        } else {
+            showWarning("Авторизуйтесь и повторите попытку!");
+            navigate("/login");
+        }
+    }
 
     return (
         <div>
@@ -126,21 +143,22 @@ const Hotel = () => {
                             </p>
                         </div>
                         <div className="hotelDetailsPrice">
-                            <h1>Perfect for a 9-night stay!</h1>
+                            <h1>Perfect for a {days}-night stay!</h1>
                             <span>
                 Located in the real heart of Krakow, this property has an
                 excellent location score of 9.8!
-              </span>
+              </span>y
                             <h2>
-                                <b>$945</b> (9 nights)
+                                <b>${days * data.chipestPrice * options.room}</b> ({days} nights)
                             </h2>
-                            <button>Reserve or Book Now!</button>
+                            <button onClick = {handleClick}>Reserve or Book Now!</button>
                         </div>
                     </div>
                 </div>
                 {/*<MailList />*/}
                 {/*<Footer />*/}
             </div>
+            {openReservationModal && <Reserve setOpen={setOpenReservationModal} hotelId={hotelId}/>}
         </div>
     );
 };
