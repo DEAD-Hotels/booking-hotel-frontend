@@ -15,12 +15,13 @@ export const loadRoomsInHotel = (hotelId, navigate) =>
         .then(res => throwHttpErrors(res, navigate))
         .then(rooms => rooms || [])
 
-export const saveReservationInfo = (totalPrice, startDate, endDate, selectedRooms) =>
+export const saveReservationInfo = (totalPrice, startDate, endDate, selectedRooms, currentUser, navigate) =>
     fetch(HOST + `/reservation/saveReservation`, {
         method: "POST",
         headers: {
             ...getCommonJsonRequestProps().headers
         },
-        body: JSON.stringify({totalPrice, startDate, endDate, selectedRooms})
+        body: JSON.stringify({totalPrice, startDate, endDate, selectedRooms, currentUser})
     })
+        .then(res => throwHttpErrors(res, navigate))
         .then(response => response.text())

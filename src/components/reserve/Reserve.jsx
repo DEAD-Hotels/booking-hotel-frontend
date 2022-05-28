@@ -9,9 +9,10 @@ import {useNavigate} from "react-router";
 import {dayDifference, findRoomsById} from "../../utils/calculateDays";
 import * as hotelApi from "../../api/hotelApi";
 import {useSnackbar} from "../../utils/snackbar";
+import {AppContext} from "../../context/AppContext";
 
-const onSaveReservation = (totalPrice, dates, sendingRooms, showSuccess, showError, navigate) => {
-    hotelApi.saveReservationInfo(totalPrice, dates[0].startDate, dates[0].endDate, sendingRooms)
+const onSaveReservation = (totalPrice, dates, sendingRooms, showSuccess, showError, navigate, currentUser) => {
+    hotelApi.saveReservationInfo(totalPrice, dates[0].startDate, dates[0].endDate, sendingRooms, currentUser.id, navigate)
         .then(res => {
             showSuccess(res);
             navigate("/")
@@ -21,11 +22,16 @@ const onSaveReservation = (totalPrice, dates, sendingRooms, showSuccess, showErr
 
 export const Reserve = ({setOpen, hotelId}) => {
     const navigate = useNavigate();
+    const {data} = useFetch(HOST + `/hotels/${hotelId}/rooms`);
+
     const {showSuccess, showError} = useSnackbar();
+
     const [totalPrice, setTotalPrice] = useState(0);
     const [selectedRooms, setSelectedRooms] = useState([]);
-    const {data} = useFetch(HOST + `/hotels/${hotelId}/rooms`);
+
     const {dates} = useContext(SearchContext);
+    const [context] = useContext(AppContext);
+    const {currentUser} = context;
 
     const days = dayDifference(dates[0].endDate, dates[0].startDate);
 
@@ -37,7 +43,7 @@ export const Reserve = ({setOpen, hotelId}) => {
             sendingRooms.push(room);
         });
 
-        onSaveReservation(totalPrice, dates, sendingRooms, showSuccess, showError, navigate);
+        onSaveReservation(totalPrice, dates, sendingRooms, showSuccess, showError, navigate, currentUser);
     };
     const handleSelect = (e) => {
         const checked = e.target.checked;
@@ -47,7 +53,8 @@ export const Reserve = ({setOpen, hotelId}) => {
             : selectedRooms.filter((item) => item !== value));
 
         const room = findRoomsById(data, value);
-        setTotalPrice(checked ? totalPrice + (room.id * days) : totalPrice - (room.id * days));
+        console.log(room);
+        setTotalPrice(checked ? totalPrice + (room.price * days) : totalPrice - (room.price * days));
     }
 
     return (
