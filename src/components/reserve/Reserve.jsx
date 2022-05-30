@@ -14,7 +14,7 @@ import {AppContext} from "../../context/AppContext";
 const onSaveReservation = (totalPrice, dates, sendingRooms, showSuccess, showError, navigate, currentUser) => {
     hotelApi.saveReservationInfo(totalPrice, dates[0].startDate, dates[0].endDate, sendingRooms, currentUser.id, navigate)
         .then(res => {
-            showSuccess(res);
+            showSuccess(res.body);
             navigate("/")
         })
         .catch(err => showError(err))
@@ -33,17 +33,18 @@ export const Reserve = ({setOpen, hotelId}) => {
     const [context] = useContext(AppContext);
     const {currentUser} = context;
 
+    console.log(data);
     const days = dayDifference(dates[0].endDate, dates[0].startDate);
 
     const handleClick = () => {
         const sendingRooms = [];
 
-        selectedRooms.map((roomId) => {
-            const room = findRoomsById(data, roomId);
-            sendingRooms.push(room);
-        });
+        // selectedRooms.map((roomId) => {
+        //     const room = findRoomsById(data, roomId);
+        //     sendingRooms.push(room);
+        // });
 
-        onSaveReservation(totalPrice, dates, sendingRooms, showSuccess, showError, navigate, currentUser);
+        onSaveReservation(totalPrice, dates, selectedRooms, showSuccess, showError, navigate, currentUser);
     };
     const handleSelect = (e) => {
         const checked = e.target.checked;
@@ -53,7 +54,6 @@ export const Reserve = ({setOpen, hotelId}) => {
             : selectedRooms.filter((item) => item !== value));
 
         const room = findRoomsById(data, value);
-        console.log(room);
         setTotalPrice(checked ? totalPrice + (room.price * days) : totalPrice - (room.price * days));
     }
 

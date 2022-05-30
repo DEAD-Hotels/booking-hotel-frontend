@@ -16,17 +16,23 @@ import {Reserve} from "../../components/reserve/Reserve";
 const Hotel = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const {showWarning} = useSnackbar();
+
     const {dates, options} = useContext(SearchContext);
     const [context] =        useContext(AppContext);
-    const {showWarning} = useSnackbar();
+
+
     const [slideNumber, setSlideNumber] = useState(0);
     const [open, setOpen] = useState(false);
     const [openReservationModal, setOpenReservationModal] = useState(false);
 
     const hotelId = location.pathname.split('/')[2];
     const {currentUser} = context;
-    const {data, error, loading, reFetch} = useFetch(HOST + `/hotels/${hotelId}`);
-    const days = dayDifference(dates[0].endDate, dates[0].startDate);
+    const {data} = useFetch(HOST + `/hotels/${hotelId}`);
+
+    const fetchDays = dayDifference(dates[0].endDate, dates[0].startDate)>0;
+    const days = fetchDays > 0 ? fetchDays : 1;
+
     const photos = [
         {
             src: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/261707778.jpg?k=56ba0babbcbbfeb3d3e911728831dcbc390ed2cb16c51d88159f82bf751d04c6&o=&hp=1",
@@ -149,7 +155,7 @@ const Hotel = () => {
                 excellent location score of 9.8!
               </span>y
                             <h2>
-                                <b>${days * data.chipestPrice * options.room}</b> ({days} nights)
+                                <b>${days * data.chipestPrice * (options.room ? options.room : 1) }</b> ({days} nights)
                             </h2>
                             <button onClick = {handleClick}>Reserve or Book Now!</button>
                         </div>

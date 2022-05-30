@@ -34,7 +34,7 @@ const SearchItem = ({item}) => {
                     <span className="siPrice">$ {item.chipestPrice}</span>
                     <span className="siTaxOp">Includes taxes and fees</span>
                     <Link to={`/hotels/${item.id}`}>
-                        <button className="siCheckButton">See availability</button>
+                        <button className="siCheckButton">Просмотреть доступные номера</button>
                     </Link>
                 </div>
             </div>

@@ -24,4 +24,4 @@ export const saveReservationInfo = (totalPrice, startDate, endDate, selectedRoom
         body: JSON.stringify({totalPrice, startDate, endDate, selectedRooms, currentUser})
     })
         .then(res => throwHttpErrors(res, navigate))
-        .then(response => response.text())
+        .then(response => response.json())
