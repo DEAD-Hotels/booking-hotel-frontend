@@ -19,7 +19,7 @@ const Hotel = () => {
     const {showWarning} = useSnackbar();
 
     const {dates, options} = useContext(SearchContext);
-    const [context] =        useContext(AppContext);
+    const [context] = useContext(AppContext);
 
 
     const [slideNumber, setSlideNumber] = useState(0);
@@ -30,7 +30,7 @@ const Hotel = () => {
     const {currentUser} = context;
     const {data} = useFetch(HOST + `/hotels/${hotelId}`);
 
-    const fetchDays = dayDifference(dates[0].endDate, dates[0].startDate)>0;
+    const fetchDays = dayDifference(dates[0].endDate, dates[0].startDate) > 0;
     const days = fetchDays > 0 ? fetchDays : 1;
 
     const photos = [
@@ -78,6 +78,10 @@ const Hotel = () => {
             showWarning("Авторизуйтесь и повторите попытку!");
             navigate("/login");
         }
+        if (!dates) {
+            showWarning("Выберете даты вашего путшествия и повторите попытку!")
+            navigate("/");
+        }
     }
 
     return (
@@ -107,7 +111,7 @@ const Hotel = () => {
                     </div>
                 )}
                 <div className="hotelWrapper">
-                    <button className="bookNow">Reserve or Book Now!</button>
+                    <button className="bookNow">Забронируйте прямо сейчас!!</button>
                     <h1 className="hotelTitle">Tower Street Apartments</h1>
                     <div className="hotelAddress">
                         <FontAwesomeIcon icon={faLocationDot}/>
@@ -155,9 +159,9 @@ const Hotel = () => {
                 excellent location score of 9.8!
               </span>y
                             <h2>
-                                <b>${days * data.chipestPrice * (options.room ? options.room : 1) }</b> ({days} nights)
+                                <b>${days * data.chipestPrice * (options.room ? options.room : 1)}</b> ({days} nights)
                             </h2>
-                            <button onClick = {handleClick}>Reserve or Book Now!</button>
+                            <button onClick={handleClick}>Забронируйте прямо сейчас!</button>
                         </div>
                     </div>
                 </div>
